@@ -49,7 +49,7 @@ new FetchWeatherTask().execute(location);
                 //refresh
                 Toast.makeText(MainActivity.this, "Refresh", Toast.LENGTH_SHORT).show();
 break;
-            
+
         }
         return super.onOptionsItemSelected(item);
     }
