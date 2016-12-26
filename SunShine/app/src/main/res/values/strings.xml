@@ -92,7 +92,6 @@
     <string name="condition_960">Storm</string>
     <string name="condition_961">Violent Storm</string>
     <string name="condition_962">Hurricane</string>
-
     <string name="condition_unknown">Unknown (<xliff:g id="conditionId">%1$d</xliff:g>)</string>
 
 
@@ -110,5 +109,7 @@
     <!--Used by SunshinePreferences-->
     <!-- - - - - - - - - - - - - - -->
     <!--NONE-->
+    
+    <string name="action_refresh">Refresh</string>
 
 </resources>
