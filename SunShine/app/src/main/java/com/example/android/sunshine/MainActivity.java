@@ -9,15 +9,19 @@ import com.example.android.sunshine.utilities.OpenWeatherJsonUtils;
 
 import android.os.Bundle;
 import android.support.v7.view.menu.MenuAdapter;
+import android.widget.TextView;
 
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
+    private TextView mWeatherTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mWeatherTextView = (TextView) findViewById(R.id.tv_weather_data);
+
     }
 
     private void loadWeatherData() {
@@ -41,6 +45,16 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String[] weatherData) {
+            if(weatherData != null){
+                for(String weatherString : weatherData){
+                    mWeatherTextView.append((weatherString) + "\n\n\n");
+
+                }
             }
         }
     }

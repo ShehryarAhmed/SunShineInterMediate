@@ -1,8 +1,12 @@
 package com.example.android.sunshine.utilities;
 
+import android.content.Intent;
+import android.net.Uri;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -50,8 +54,19 @@ import java.util.Scanner;
          * @return The URL to use to query the weather server.
          */
         public static URL buildUrl(String locationQuery) {
-            // TODO (1) Fix this method to return the URL used to query Open Weather Map's API
-            return null;
+            Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
+                    .appendQueryParameter(QUERY_PARAM,locationQuery)
+                    .appendQueryParameter(FORMAT_PARAM,format)
+                    .appendQueryParameter(UNITS_PARAM,units)
+                    .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
+                    .build();
+            URL url = null;
+            try{
+                url = new URL(builtUri.toString());
+            }catch (MalformedURLException e){
+                e.printStackTrace();
+            }
+            return url;
         }
 
         /**
