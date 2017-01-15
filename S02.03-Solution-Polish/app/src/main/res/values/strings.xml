@@ -26,6 +26,10 @@
 
     <!--Used in overflow menu to refresh weather data-->
     <string name="action_refresh">Refresh</string>
+    
+    <string name="action_map">Map Location</string>
+    
+    <string name="action_share">Share</string>
 
     <!--COMPLETED (1) Add a string resource for your error message-->
     <string name="error_message">
