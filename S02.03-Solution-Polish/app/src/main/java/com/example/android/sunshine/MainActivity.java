@@ -22,6 +22,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
         /* Once all of our views are setup, we can load the weather data. */
-        
+
         int loderId = FORECAST_LODER_ID;
 
         LoaderManager.LoaderCallbacks<String[]> callbacks = MainActivity.this;
@@ -112,8 +114,53 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
 
         getSupportLoaderManager().initLoader(loderId,bundleLoader,callbacks);
 
+    }
+
+    @Override
+    public Loader<String[]> onCreateLoader(int id,final Bundle args) {
+        return new AsyncTaskLoader<String[]>(this) {
+            String[] mWeatherData = null;
+
+            @Override
+            protected void onStartLoading() {
+                if(mWeatherData != null){
+                    deliverResult(mWeatherData);
+                }
+                else {
+                    mLoadingIndicator.setVisibility(View.VISIBLE);
+                    forceLoad();
+                }
+            }
+
+            @Override
+            public String[] loadInBackground() {
+
+                String locationQuery = SunshinePreferences.getPreferredWeatherLocation(MainActivity.this);
+
+                URL weatherRequestUrl = NetworkUtils.buildUrl(locationQuery);
+
+                try{
+                    String jsonWeatherResponse = NetworkUtils.getResponseFromHttpUrl(weatherRequestUrl);
+
+                    String[] simpleJsonWeatherData = OpenWeatherJsonUtils.getSimpleWeatherStringsFromJson(MainActivity.this,jsonWeatherResponse);
+
+                    return simpleJsonWeatherData;
+                }catch (Exception e){
+                    e.printStackTrace();
+                    return null;
+                }
+
+            }
+
+            public void deliverResult(String[] data){
+            mWeatherData = data;
+                super.deliverResult(data);
+            }};
 
     }
+
+
+
 
     /**
      * This method will get the user's preferred location for weather, and then tell some
