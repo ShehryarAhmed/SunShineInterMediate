@@ -21,6 +21,7 @@ import android.icu.text.UnicodeSetSpanner;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,7 +40,10 @@ import com.example.android.sunshine.utilities.OpenWeatherJsonUtils;
 
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity implements ForecastAdapterOnClickHandler {
+public class MainActivity extends AppCompatActivity implements ForecastAdapterOnClickHandler,LoaderManager.LoaderCallbacks<String[]> {
+
+    public static final int FORECAST_LODER_ID = 0;
+
 
     private RecyclerView mRecyclerView;
     private ForecastAdapter mForecastAdapter;
@@ -57,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
          * Using findViewById, we get a reference to our RecyclerView from xml. This allows us to
          * do things like set the adapter of the RecyclerView and toggle the visibility.
          */
+
+
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_forecast);
 
         /* This TextView is used to display errors and will be hidden if there are no errors */
@@ -97,7 +103,16 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
         /* Once all of our views are setup, we can load the weather data. */
-        loadWeatherData();
+        
+        int loderId = FORECAST_LODER_ID;
+
+        LoaderManager.LoaderCallbacks<String[]> callbacks = MainActivity.this;
+
+        Bundle bundleLoader = null;
+
+        getSupportLoaderManager().initLoader(loderId,bundleLoader,callbacks);
+
+
     }
 
     /**
