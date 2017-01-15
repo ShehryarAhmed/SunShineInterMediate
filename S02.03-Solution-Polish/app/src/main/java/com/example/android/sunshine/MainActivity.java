@@ -15,9 +15,13 @@
  */
 package com.example.android.sunshine;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,7 +35,11 @@ import com.example.android.sunshine.utilities.OpenWeatherJsonUtils;
 
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ForecastAdapter.ForecastAdapterOnClickHandler{
+
+    private RecyclerView mRecyclerView;
+
+    private ForecastAdapter mForecastAdapter;
 
     private TextView mWeatherTextView;
 
@@ -50,7 +58,19 @@ public class MainActivity extends AppCompatActivity {
          * Using findViewById, we get a reference to our TextView from xml. This allows us to
          * do things like set the text of the TextView.
          */
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_forecast);
+
         mWeatherTextView = (TextView) findViewById(R.id.tv_weather_data);
+
+        LinearLayoutManager layoutManager= new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        mRecyclerView.setHasFixedSize(true);
+
+        mForecastAdapter = new ForecastAdapter(this);
+
+        mRecyclerView.setAdapter(mForecastAdapter);
 
         // COMPLETED (7) Find the TextView for the error message using findViewById
         /* This TextView is used to display errors and will be hidden if there are no errors */
@@ -71,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
         loadWeatherData();
     }
 
+
+
     /**
      * This method will get the user's preferred location for weather, and then tell some
      * background method to get the weather data in the background.
@@ -81,6 +103,12 @@ public class MainActivity extends AppCompatActivity {
 
         String location = SunshinePreferences.getPreferredWeatherLocation(this);
         new FetchWeatherTask().execute(location);
+    }
+    @Override
+    public void onClick(String weatherForDay) {
+        Class Destination = DetailActivity.class;
+        Intent intentToStartDetailActivity = new Intent(this,Destination);
+        startActivity(intentToStartDetailActivity);
     }
 
     // COMPLETED (8) Create a method called showWeatherDataView that will hide the error message and show the weather data

@@ -22,6 +22,13 @@
     <!--COMPLETED (3) Make the width and the height wrap_content-->
     <!--COMPLETED (4) Give the TextView a default error message stating that an error occurred (use strings.xml)-->
     <!--COMPLETED (5) Set the default visibility of the TextView to invisible-->
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_forecast"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <TextView
         android:id="@+id/tv_error_message_display"
         android:layout_width="wrap_content"
@@ -42,16 +49,6 @@
         android:layout_gravity="center"
         android:visibility="invisible" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_weather_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:textSize="20sp" />
-    </ScrollView>
 
 </FrameLayout>
