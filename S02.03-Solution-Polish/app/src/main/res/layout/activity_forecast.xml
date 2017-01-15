@@ -18,18 +18,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/tv_weather_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:textSize="20sp" />
-    </ScrollView>
-
     <!--COMPLETED (2) Add a TextView that you will show the user if there is an error loading content-->
     <!--COMPLETED (3) Make the width and the height wrap_content-->
     <!--COMPLETED (4) Give the TextView a default error message stating that an error occurred (use strings.xml)-->
@@ -53,5 +41,17 @@
         android:layout_width="42dp"
         android:layout_gravity="center"
         android:visibility="invisible" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_weather_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:textSize="20sp" />
+    </ScrollView>
 
 </FrameLayout>
