@@ -260,8 +260,16 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
             openLocationInMap();
             return true;
         }
+        if(id == R.id.action_setting){
+            openSettingActivity();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+    private void openSettingActivity(){
+        Intent intent = new Intent(MainActivity.this,SettingActivity.class);
+        startActivity(intent);
     }
     private void openLocationInMap(){
         String addressString = "1600 Ampitheatre parkway, CA";
