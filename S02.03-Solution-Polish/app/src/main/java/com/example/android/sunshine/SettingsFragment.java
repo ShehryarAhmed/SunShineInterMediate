@@ -33,9 +33,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             if(!(p instanceof CheckBoxPreference)){
                 String value= sharedPreferences.getString(p.getKey(),"");
                 setPreferenceSummary(p,value);
-            }
+                }
         }
-
     }
     private void setPreferenceSummary(android.support.v7.preference.Preference preference,Object value){
         String stringvalue =value.toString();
