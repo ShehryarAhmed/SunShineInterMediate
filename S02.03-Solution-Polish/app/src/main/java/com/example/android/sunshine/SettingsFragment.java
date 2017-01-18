@@ -18,6 +18,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
 
+        android.support.v7.preference.Preference preference = findPreference(s);
+        
     }
 
     @Override
@@ -36,7 +38,21 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 }
         }
     }
-    private void setPreferenceSummary(android.support.v7.preference.Preference preference,Object value){
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+
+    private void setPreferenceSummary(android.support.v7.preference.Preference preference, Object value){
         String stringvalue =value.toString();
         String key = preference.getKey();
         if(preference instanceof ListPreference){
