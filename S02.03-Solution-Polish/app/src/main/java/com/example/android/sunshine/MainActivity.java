@@ -17,6 +17,7 @@ package com.example.android.sunshine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.icu.text.UnicodeSetSpanner;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -25,6 +26,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -42,7 +44,12 @@ import com.example.android.sunshine.utilities.OpenWeatherJsonUtils;
 
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity implements ForecastAdapterOnClickHandler,LoaderManager.LoaderCallbacks<String[]> {
+public class MainActivity extends AppCompatActivity implements
+        ForecastAdapterOnClickHandler,LoaderManager.LoaderCallbacks<String[]> ,
+        SharedPreferences.OnSharedPreferenceChangeListener
+
+{
+    private static boolean PREFERENCE_HAVE_BEEN_UPDATE = false;
 
     public static final int FORECAST_LODER_ID = 0;
 
@@ -114,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
 
         getSupportLoaderManager().initLoader(loderId,bundleLoader,callbacks);
 
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -271,8 +279,26 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
         Intent intent = new Intent(MainActivity.this,SettingActivity.class);
         startActivity(intent);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(PREFERENCE_HAVE_BEEN_UPDATE){
+            getSupportLoaderManager().restartLoader(FORECAST_LODER_ID,null,this);
+            PREFERENCE_HAVE_BEEN_UPDATE =false;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+
     private void openLocationInMap(){
-        String addressString = "1600 Ampitheatre parkway, CA";
+        String addressString = SunshinePreferences.getPreferredWeatherLocation(this);
 
         Uri geoLocation = Uri.parse("geo:0,0?q="+addressString);
 
@@ -285,4 +311,10 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
             Toast.makeText(this, "not call", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+        PREFERENCE_HAVE_BEEN_UPDATE = true;
+    }
+
 }
