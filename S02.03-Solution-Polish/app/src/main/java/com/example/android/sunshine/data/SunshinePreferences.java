@@ -19,6 +19,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.preference.PreferenceManager;
 
+import com.example.android.sunshine.R;
+
 public class SunshinePreferences {
 
     /*
@@ -91,8 +93,8 @@ public class SunshinePreferences {
     public static String getPreferredWeatherLocation(Context context) {
         /** This will be implemented in a future lesson **/
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String keyForLocation = context.getString(android.support.v7.preference.R.string.pref_location_key);
-        String defaultLocation =context.getString(android.support.v7.preference.R.string.pref_locatio_default);
+        String keyForLocation = context.getString(R.string.pref_location_key);
+        String defaultLocation =context.getString(R.string.pref_location_default);
         return sharedPreferences.getString(keyForLocation,defaultLocation);
 
     }
@@ -105,12 +107,19 @@ public class SunshinePreferences {
      */
     public static boolean isMetric(Context context) {
      SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String keyForUnits = context.getString(android.support.v7.preference.R.string.pref_units_key);
-        String defaultUnits = context.getString(android.support.v7.preference.R.string.pref_units_metric);
+        String keyForUnits = context.getString(R.string.pref_units_key);
+        String defaultUnits = context.getString(R.string.pref_units_metric);
         String preferredUnits = sharedPreferences.getString(keyForUnits,defaultUnits);
-        String metric =context.getString(android.support.v7.preference.R.string.pref_units_metric);
+        String metric =context.getString(R.string.pref_units_metric);
 
-        
+        boolean useprefersMetric;
+        if(metric.equals(preferredUnits)){
+            useprefersMetric =true;
+        }
+        else {
+            useprefersMetric = false;
+        }
+        return useprefersMetric;
     }
 
     /**
