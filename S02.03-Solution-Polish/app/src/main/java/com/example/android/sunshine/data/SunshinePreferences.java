@@ -104,6 +104,12 @@ public class SunshinePreferences {
      * @return true If metric display should be used
      */
     public static boolean isMetric(Context context) {
+     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String keyForUnits = context.getString(android.support.v7.preference.R.string.pref_units_key);
+        String defaultUnits = context.getString(android.support.v7.preference.R.string.pref_units_metric);
+        String preferredUnits = sharedPreferences.getString(keyForUnits,defaultUnits);
+        String metric =context.getString(android.support.v7.preference.R.string.pref_units_metric);
+
         
     }
 
