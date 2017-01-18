@@ -19,7 +19,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
 
         android.support.v7.preference.Preference preference = findPreference(s);
-        
+        if(null != preference){
+            if(!(preference instanceof CheckBoxPreference)){
+                setPreferenceSummary(preference,sharedPreferences.getString(s,""));
+            }
+        }
     }
 
     @Override
