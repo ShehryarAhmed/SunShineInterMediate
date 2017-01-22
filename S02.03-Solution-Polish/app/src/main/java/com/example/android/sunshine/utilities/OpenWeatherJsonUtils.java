@@ -19,6 +19,7 @@ import android.content.ContentValues;
 import android.content.Context;
 
 import com.example.android.sunshine.data.SunshinePreferences;
+import com.example.android.sunshine.data.WeatherContract;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -205,11 +206,11 @@ public final class OpenWeatherJsonUtils {
 
         SunshinePreferences.setLocationDetails(context,cityLatitude,cityLongitude);
 
-        ContentValues[] weatherontentValue = new ContentValues[jseonWeatherArray.length()];
+        ContentValues[] weatherontentValues = new ContentValues[jseonWeatherArray.length()];
 
         long normalizedUtcStartDay = SunshineDateUtils.getNormalizedUtcDateForToday();
 
-        for (int i = 0; i < jseonWeatherArray.length(); i++){
+        for (int i = 0; i < jseonWeatherArray.length(); i++) {
             long dateTimeMiles;
 
             double pressure;
@@ -228,8 +229,40 @@ public final class OpenWeatherJsonUtils {
 
             JSONObject dayForecast = jseonWeatherArray.getJSONObject(i);
 
-            
+            dateTimeMiles = normalizedUtcStartDay + SunshineDateUtils.DAY_IN_MILLIS;
+
+            pressure = dayForecast.getDouble(OWM_PRESSURE);
+
+            humidity = dayForecast.getInt(OWM_HUMIDITY);
+
+            windSpeed = dayForecast.getDouble(OWM_WINDSPEED);
+
+            windDirection = dayForecast.getDouble(OWM_WIND_DIRECTION);
+
+            JSONObject weatherObject = dayForecast.getJSONArray(OWM_WEATHER).getJSONObject(0);
+
+            weatherID = weatherObject.getInt(OWM_WEATHER);
+
+            JSONObject tempreatureObject = dayForecast.getJSONObject(OWM_TEMPERATURE);
+
+            high = tempreatureObject.getDouble(OWM_MAX);
+
+            low = tempreatureObject.getDouble(OWM_MIN);
+
+            ContentValues cv = new ContentValues();
+
+            cv.put(WeatherContract.WeatherEntry.CoLUMN_DATE, dateTimeMiles);
+            cv.put(WeatherContract.WeatherEntry.COLUMN_PRESSURE, pressure);
+            cv.put(WeatherContract.WeatherEntry.COLUMN_HUMIDTIY, humidity);
+            cv.put(WeatherContract.WeatherEntry.COLUMN_WING_SPEDD, windSpeed);
+            cv.put(WeatherContract.WeatherEntry.COLUMN_DEGREES, windDirection);
+            cv.put(WeatherContract.WeatherEntry.COLUMN_MAX_TEMP, high);
+            cv.put(WeatherContract.WeatherEntry.COLUMN_MIN_TEMP, low);
+            cv.put(WeatherContract.WeatherEntry.COLUMN_WEATHER_ID, weatherID);
+
+            weatherontentValues[i] = cv;
 
         }
+        return weatherontentValues;
     }
 }
