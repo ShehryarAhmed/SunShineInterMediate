@@ -254,7 +254,7 @@ public final class OpenWeatherJsonUtils {
             cv.put(WeatherContract.WeatherEntry.CoLUMN_DATE, dateTimeMiles);
             cv.put(WeatherContract.WeatherEntry.COLUMN_PRESSURE, pressure);
             cv.put(WeatherContract.WeatherEntry.COLUMN_HUMIDTIY, humidity);
-            cv.put(WeatherContract.WeatherEntry.COLUMN_WING_SPEDD, windSpeed);
+            cv.put(WeatherContract.WeatherEntry.COLUMN_WING_SPEED, windSpeed);
             cv.put(WeatherContract.WeatherEntry.COLUMN_DEGREES, windDirection);
             cv.put(WeatherContract.WeatherEntry.COLUMN_MAX_TEMP, high);
             cv.put(WeatherContract.WeatherEntry.COLUMN_MIN_TEMP, low);
