@@ -206,6 +206,30 @@ public final class OpenWeatherJsonUtils {
         SunshinePreferences.setLocationDetails(context,cityLatitude,cityLongitude);
 
         ContentValues[] weatherontentValue = new ContentValues[jseonWeatherArray.length()];
-        
+
+        long normalizedUtcStartDay = SunshineDateUtils.getNormalizedUtcDateForToday();
+
+        for (int i = 0; i < jseonWeatherArray.length(); i++){
+            long dateTimeMiles;
+
+            double pressure;
+
+            int humidity;
+
+            double windSpeed;
+
+            double windDirection;
+
+            double high;
+
+            double low;
+
+            int weatherID;
+
+            JSONObject dayForecast = jseonWeatherArray.getJSONObject(i);
+
+            
+
+        }
     }
 }
