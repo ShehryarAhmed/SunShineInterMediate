@@ -171,8 +171,8 @@ public final class OpenWeatherJsonUtils {
      *
      * @return An array of ContentValues parsed from the JSON.
      */
-    public static ContentValues[] getFullWeatherDataFromJson(Context context, String forecastJsonStr) {
-        /** This will be implemented in a future lesson **/
-        return null;
+    public static ContentValues[] getFullWeatherDataFromJson(Context context, String forecastJsonStr) throws JSONException{
+
+        
     }
 }
