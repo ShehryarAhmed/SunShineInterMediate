@@ -43,6 +43,33 @@ public final class OpenWeatherJsonUtils {
      *
      * @throws JSONException If JSON data cannot be properly parsed
      */
+    //location information
+    private static final String OWM_CITY = "city";
+    private static final String OWM_COORD = "coord";
+
+    /* Location coordinate */
+    private static final String OWM_LATITUDE = "lat";
+    private static final String OWM_LONGITUDE = "lon";
+
+    /* Weather information. Each day's forecast info is an element of the "list" array */
+    private static final String OWM_LIST = "list";
+
+    private static final String OWM_PRESSURE = "pressure";
+    private static final String OWM_HUMIDITY = "humidity";
+    private static final String OWM_WINDSPEED = "speed";
+    private static final String OWM_WIND_DIRECTION = "deg";
+
+    /* All temperatures are children of the "temp" object */
+    private static final String OWM_TEMPERATURE = "temp";
+
+    /* Max temperature for the day */
+    private static final String OWM_MAX = "max";
+    private static final String OWM_MIN = "min";
+
+    private static final String OWM_WEATHER = "weather";
+    private static final String OWM_WEATHER_ID = "id";
+
+    private static final String OWM_MESSAGE_CODE = "cod";
     public static String[] getSimpleWeatherStringsFromJson(Context context, String forecastJsonStr)
             throws JSONException {
 
