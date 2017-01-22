@@ -18,6 +18,8 @@ package com.example.android.sunshine.utilities;
 import android.content.ContentValues;
 import android.content.Context;
 
+import com.example.android.sunshine.data.SunshinePreferences;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -173,6 +175,37 @@ public final class OpenWeatherJsonUtils {
      */
     public static ContentValues[] getFullWeatherDataFromJson(Context context, String forecastJsonStr) throws JSONException{
 
+        JSONObject forecastJson = new JSONObject(forecastJsonStr);
+
+        if(forecastJson.has(OWM_MESSAGE_CODE)){
+
+            int errorcode = forecastJson.getInt(OWM_MESSAGE_CODE);
+
+            switch (errorcode){
+                case HttpURLConnection.HTTP_OK:
+                    break;
+                case HttpURLConnection.HTTP_NOT_FOUND:
+                    return null;
+                default:
+
+                    return null;
+            }
+
+        }
+
+        JSONArray jseonWeatherArray = forecastJson.getJSONArray(OWM_LIST);
+
+        JSONObject cityJsonObject = forecastJson.getJSONObject(OWM_CITY);
+
+        JSONObject citycoord = cityJsonObject.getJSONObject(OWM_COORD);
+
+        double cityLatitude = citycoord.getDouble(OWM_LATITUDE);
+
+        double cityLongitude = citycoord.getDouble(OWM_LONGITUDE);
+
+        SunshinePreferences.setLocationDetails(context,cityLatitude,cityLongitude);
+
+        ContentValues[] weatherontentValue = new ContentValues[jseonWeatherArray.length()];
         
     }
 }

@@ -55,7 +55,7 @@ public class SunshinePreferences {
      * @param lat      The latitude of the city
      * @param lon      The longitude of the city
      */
-    static public void setLocationDetails(Context c, String cityName, double lat, double lon) {
+    static public void setLocationDetails(Context c,  double lat, double lon) {
         /** This will be implemented in a future lesson **/
     }
 
