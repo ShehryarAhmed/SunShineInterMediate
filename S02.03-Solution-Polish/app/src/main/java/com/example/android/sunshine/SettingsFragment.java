@@ -23,10 +23,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
         Activity activity = getActivity();
-        if(key.equals(getString(android.R.string.pref_location_key))){
+        if(key.equals(getString(R.string.pref_location_key))){
             SunshinePreferences.resetLocationCoordinates(activity);
         }
-        else if(key.equals(getString(android.R.string.pref_units_key))) {
+        else if(key.equals(getString(R.string.pref_units_key))) {
             activity.getContentResolver().notifyChange(WeatherContract.WeatherEntry.CONTENT_URI,null);
         }
 
