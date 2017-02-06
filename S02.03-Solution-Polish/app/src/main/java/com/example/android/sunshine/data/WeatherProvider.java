@@ -4,8 +4,11 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+
+import com.example.android.sunshine.utilities.SunshineDateUtils;
 
 /**
  * Created by android on 2/6/2017.
@@ -75,6 +78,41 @@ public class WeatherProvider extends ContentProvider {
        }
         cursor.setNotificationUri(getContext().getContentResolver(),uri);
         return cursor;
+    }
+
+    @Override
+    public int bulkInsert(Uri uri, ContentValues[] values) {
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        switch (sUriMatcher.match(uri)){
+            case CODE_WEATHER:
+                db.beginTransaction();
+                int rowInserted = 0;
+                try{
+                    for(ContentValues value : values){
+                       long weatherData =
+                               value.getAsLong(WeatherContract.WeatherEntry.CoLUMN_DATE);
+                        if(SunshineDateUtils.isDateNormalized(weatherData)){
+                            throw  new IllegalArgumentException("Date Must be normalized To Insert");
+                        }
+                        long _id = db.insert(WeatherContract.WeatherEntry.TABLE_NAME,null,value);
+                        if(_id != -1){
+                            rowInserted++;
+                        }
+                        }
+                    db.setTransactionSuccessful();
+                }
+                finally {
+                    db.endTransaction();
+
+                }
+                if(rowInserted > 0){
+                    getContext().getContentResolver().notifyChange(uri,null);
+                }
+                return rowInserted;
+
+            default:
+                return super.bulkInsert(uri,values);
+        }
     }
 
     @Nullable

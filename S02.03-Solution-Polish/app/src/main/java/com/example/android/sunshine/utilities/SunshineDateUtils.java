@@ -84,7 +84,14 @@ public final class SunshineDateUtils {
 
         return normalizedUtcMidnightMillis;
     }
+    public static boolean isDateNormalized(long millisSinceEpoch) {
+        boolean isDateNormalized = false;
+        if (millisSinceEpoch % DAY_IN_MILLIS == 0) {
+            isDateNormalized = true;
+        }
 
+        return isDateNormalized;
+    }
     public static long getDayNumber(long date) {
         TimeZone tz = TimeZone.getDefault();
         long gmtOffset = tz.getOffset(date);
