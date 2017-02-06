@@ -46,6 +46,10 @@
         <activity android:name=".SettingActivity"
             >
         </activity>
+        <provider
+            android:authorities="@string/content_authority"
+            android:name="com.example.android.sunshine.data.WeatherProvider"
+            android:exported="false"/>
     </application>
 
 </manifest>
