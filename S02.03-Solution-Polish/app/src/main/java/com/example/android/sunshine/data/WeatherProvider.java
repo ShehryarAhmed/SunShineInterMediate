@@ -23,20 +23,58 @@ public class WeatherProvider extends ContentProvider {
 
     private static UriMatcher buildUriMatcher(){
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
-        final String AUTHORITY = WeatherContract.CONTENT_AUTHORITY;
-
+        final String authority = WeatherContract.CONTENT_AUTHORITY;
+        matcher.addURI(authority,WeatherContract.PATH_WEATHER,CODE_WEATHER);
+        matcher.addURI(authority,WeatherContract.PATH_WEATHER,CODE_WEATHER_DATE);
+        return matcher;
     }
+
 
 
     @Override
     public boolean onCreate() {
-        return false;
+    mOpenHelper = new WeatherDbHelper(getContext());
+        return true;
     }
 
     @Nullable
     @Override
-    public Cursor query(Uri uri, String[] strings, String s, String[] strings1, String s1) {
-        return null;
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+
+        Cursor cursor;
+
+        switch (sUriMatcher.match(uri)){
+            case CODE_WEATHER_DATE:{
+                String normalizedUtcDateString = uri.getLastPathSegment();
+                String[] selectionArgument = new String[]{normalizedUtcDateString};
+                cursor = mOpenHelper.getReadableDatabase().query(
+                        WeatherContract.WeatherEntry.TABLE_NAME,
+                        projection,
+                        WeatherContract.WeatherEntry.CoLUMN_DATE+" = ? ",
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+                break;
+            }
+            case CODE_WEATHER:{
+                cursor = mOpenHelper.getReadableDatabase().query(
+                        WeatherContract.WeatherEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            default:
+               throw new UnsupportedOperationException("UnknowUri " + uri);
+
+       }
+        cursor.setNotificationUri(getContext().getContentResolver(),uri);
+        return cursor;
     }
 
     @Nullable
