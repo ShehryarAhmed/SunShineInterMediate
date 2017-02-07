@@ -9,6 +9,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.android.sunshine.utilities.SunshineDateUtils;
+import com.example.android.sunshine.utilities.SunshineWeatherUtils;
+
 /**
  * {@link ForecastAdapter} exposes a list of weather forecasts to a
  * {@link android.support.v7.widget.RecyclerView}
@@ -91,7 +94,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 //        View view = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
         View view = LayoutInflater.from(mContext).inflate(R.layout.forecast_list_item,viewGroup,false);
         view.setFocusable(true);
-        
+
         return new ForecastAdapterViewHolder(view);
     }
 
@@ -107,9 +110,29 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
      */
     @Override
     public void onBindViewHolder(ForecastAdapterViewHolder forecastAdapterViewHolder, int position) {
-        String weatherForThisDay = mCursor[position];
-        forecastAdapterViewHolder.mWeatherTextView.setText(weatherForThisDay);
-    }
+//        String weatherForThisDay = mCursor[position];
+//
+        mCursor.moveToPosition(position);
+
+        long dateInMillis  = mCursor.getLong(MainActivity.INDEX_WEATHER_DATE);
+
+        String dateString = SunshineDateUtils.getFriendlyDateString(mContext,dateInMillis,false);
+
+        int weatherId = mCursor.getLong(MainActivity.INDEX_WEATHER_CONDITION_ID);
+
+        String description = SunshineWeatherUtils.getStringForWeatherCondition(mContext,weatherId);
+
+        double highInCelsius = mCursor.getDouble(MainActivity.INDEX_WEATHER_MAX_TEMP);
+
+        double lowInCelsius = mCursor.getDouble(MainActivity.INDEX_WEATHER_MIN_TEMP);
+
+        String highAndLowTempreature = SunshineWeatherUtils.formatHighLows(mContext,highInCelsius,lowInCelsius);
+
+        String weatherSummary = dateString + " - " + description + " - " + highAndLowTempreature;
+
+        forecastAdapterViewHolder.mWeatherTextView.setText(weatherSummary);
+
+}
 
     /**
      * This method simply returns the number of items to display. It is used behind the scenes
