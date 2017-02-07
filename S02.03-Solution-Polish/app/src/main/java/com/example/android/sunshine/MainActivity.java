@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
     private RecyclerView mRecyclerView;
+
     private ForecastAdapter mForecastAdapter;
 
 
@@ -148,64 +149,32 @@ public class MainActivity extends AppCompatActivity implements
                         selection,
                         null,
                         sortOrder);
-            break;
             default:
                 throw  new RuntimeException("Loader Not Implemented");
-        }
+        }}
 
-            @Override
-            protected void onStartLoading() {
-                if(mWeatherData != null){
-                    deliverResult(mWeatherData);
-                }
-                else {
-                    mLoadingIndicator.setVisibility(View.VISIBLE);
-                    forceLoad();
-                }
-            }
 
-            @Override
-            public String[] loadInBackground() {
 
-                String locationQuery = SunshinePreferences.getPreferredWeatherLocation(MainActivity.this);
 
-                URL weatherRequestUrl = NetworkUtils.buildUrl(locationQuery);
 
-                try{
-                    String jsonWeatherResponse = NetworkUtils.getResponseFromHttpUrl(weatherRequestUrl);
-
-                    String[] simpleJsonWeatherData = OpenWeatherJsonUtils.getSimpleWeatherStringsFromJson(MainActivity.this,jsonWeatherResponse);
-
-                    return simpleJsonWeatherData;
-                }catch (Exception e){
-                    e.printStackTrace();
-                    return null;
-                }
-
-            }
-
-            public void deliverResult(String[] data){
-            mWeatherData = data;
-                super.deliverResult(data);
-            }};
-
-    }
 
     @Override
-    public void onLoadFinished(Loader<String[]> loader, String[] data) {
-        mLoadingIndicator.setVisibility(View.INVISIBLE);
-        mForecastAdapter.setWeatherData(data);
-        if(data == null){
-            showErrorMessage();
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mForecastAdapter.swapCursor(data);
+
+        if(mPosition = mRecyclerView.NO_POSITION){
+        mPosition = 0;
         }
-        else {
+        mRecyclerView.smoothScrollToPosition(mPosition);
+
+        if(data.getCount()!= 0){
             showWeatherDataView();
         }
     }
 
     @Override
-    public void onLoaderReset(Loader<String[]> loader) {
-
+    public void onLoaderReset(Loader<Cursor> loader) {
+mForecastAdapter.swapCursor(null);
     }
 
     /**
@@ -247,7 +216,6 @@ public class MainActivity extends AppCompatActivity implements
      */
     private void showWeatherDataView() {
         /* First, make sure the error is invisible */
-        mErrorMessageDisplay.setVisibility(View.INVISIBLE);
         /* Then, make sure the weather data is visible */
         mRecyclerView.setVisibility(View.VISIBLE);
     }
@@ -259,11 +227,11 @@ public class MainActivity extends AppCompatActivity implements
      * Since it is okay to redundantly set the visibility of a View, we don't
      * need to check whether each view is currently visible or invisible.
      */
-    private void showErrorMessage() {
+    private void showLoading() {
         /* First, hide the currently visible data */
         mRecyclerView.setVisibility(View.INVISIBLE);
         /* Then, show the error */
-        mErrorMessageDisplay.setVisibility(View.VISIBLE);
+        mLoadingIndicator.setVisibility(View.VISIBLE);
     }
 
 
@@ -336,9 +304,5 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        PREFERENCE_HAVE_BEEN_UPDATE = true;
-    }
 
 }
