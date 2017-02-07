@@ -52,11 +52,11 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
      * Cache of the children views for a forecast list item.
      */
     public class ForecastAdapterViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
-        public final TextView mWeatherTextView;
+        public  TextView weatherSummary;
 
         public ForecastAdapterViewHolder(View view) {
             super(view);
-            mWeatherTextView = (TextView) view.findViewById(R.id.tv_weather_data);
+            weatherSummary = (TextView) view.findViewById(R.id.tv_weather_data);
             view.setOnClickListener(this);
         }
 
@@ -67,8 +67,8 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
          */
         @Override
         public void onClick(View v) {
-            int adapterPosition = getAdapterPosition();
-            String weatherForDay = mWeatherData[adapterPosition];
+
+            String weatherForDay = weatherSummary.getText().toString();
             mClickHandler.onClick(weatherForDay);
         }
     }
@@ -130,7 +130,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
         String weatherSummary = dateString + " - " + description + " - " + highAndLowTempreature;
 
-        forecastAdapterViewHolder.mWeatherTextView.setText(weatherSummary);
+        forecastAdapterViewHolder.weatherSummary.setText(weatherSummary);
 
 }
 
@@ -142,8 +142,8 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
      */
     @Override
     public int getItemCount() {
-        if (null == mWeatherData) return 0;
-        return mWeatherData.length;
+        if (null == mCursor) return 0;
+        return mCursor.getCount();
     }
 
     /**
@@ -151,10 +151,11 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
      * created one. This is handy when we get new data from the web but don't want to create a
      * new ForecastAdapter to display it.
      *
-     * @param weatherData The new weather data to be displayed.
+     * @param newcursor The new weather data to be displayed.
      */
-    public void setWeatherData(String[] weatherData) {
-        mWeatherData = weatherData;
+      void swapCursor(Cursor newcursor){
+            mCursor = newcursor;
+
         notifyDataSetChanged();
     }
 }
