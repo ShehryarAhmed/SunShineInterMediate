@@ -118,7 +118,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
         String dateString = SunshineDateUtils.getFriendlyDateString(mContext,dateInMillis,false);
 
-        int weatherId = mCursor.getLong(MainActivity.INDEX_WEATHER_CONDITION_ID);
+        int weatherId = mCursor.getInt(MainActivity.INDEX_WEATHER_CONDITION_ID);
 
         String description = SunshineWeatherUtils.getStringForWeatherCondition(mContext,weatherId);
 

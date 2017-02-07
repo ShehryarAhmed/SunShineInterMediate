@@ -18,6 +18,7 @@ package com.example.android.sunshine;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.icu.text.UnicodeSetSpanner;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -45,9 +46,8 @@ import com.example.android.sunshine.utilities.OpenWeatherJsonUtils;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity implements
-        ForecastAdapterOnClickHandler,LoaderManager.LoaderCallbacks<String[]> ,
-        SharedPreferences.OnSharedPreferenceChangeListener
-
+        LoaderManager.LoaderCallbacks<Cursor>,
+        ForecastAdapter.ForecastAdapterOnClickHandler
 {
     private static boolean PREFERENCE_HAVE_BEEN_UPDATE = false;
 
@@ -60,6 +60,14 @@ public class MainActivity extends AppCompatActivity implements
     private TextView mErrorMessageDisplay;
 
     private ProgressBar mLoadingIndicator;
+
+    public static final int INDEX_WEATHER_DATE = 0;
+
+       public static final int INDEX_WEATHER_MAX_TEMP = 1;
+
+       public static final int INDEX_WEATHER_MIN_TEMP = 2;
+
+    public static final int INDEX_WEATHER_CONDITION_ID = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
