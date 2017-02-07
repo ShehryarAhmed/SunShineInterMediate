@@ -25,7 +25,7 @@ public class WeatherContract {
 
         public static final String TABLE_NAME = "weather";
 
-        public static final String CoLUMN_DATE = "date";
+        public static final String COLUMN_DATE = "date";
 
         public static final String COLUMN_WEATHER_ID = "weather_id";
 
@@ -46,7 +46,7 @@ public class WeatherContract {
         }
         public static String getSqlSelectForTodayONWards(){
             long normalizedUtcNow = SunshineDateUtils.normalizeDate(System.currentTimeMillis());
-            return WeatherEntry.CoLUMN_DATE + "  >= " +normalizedUtcNow;
+            return WeatherEntry.COLUMN_DATE + "  >= " +normalizedUtcNow;
         }
 
     }
