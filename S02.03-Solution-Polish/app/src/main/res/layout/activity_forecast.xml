@@ -29,14 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <TextView
-        android:id="@+id/tv_error_message_display"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="@string/error_message"
-        android:textSize="20sp"
-        android:visibility="invisible" />
+
 
     <!--COMPLETED (12) Add a ProgressBar to show the user content is loading-->
     <!--COMPLETED (13) Make the width and height of the ProgressBar 42dp-->
