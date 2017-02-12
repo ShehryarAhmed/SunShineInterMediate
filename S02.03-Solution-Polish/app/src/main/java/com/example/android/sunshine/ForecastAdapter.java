@@ -36,8 +36,7 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapt
      * The interface that receives onClick messages.
      */
     public interface ForecastAdapterOnClickHandler {
-        void onClick(String weatherForDay);
-    }
+        void onClick(long date);    }
 
     //  COMPLETED (2) Declare a private Cursor field called mCursor
     private Cursor mCursor;
