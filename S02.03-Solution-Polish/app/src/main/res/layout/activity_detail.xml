@@ -21,31 +21,41 @@
 
 
     <TextView
-        android:id="@+id/hig"
+        android:id="@+id/high_tempreature"
+        style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:text="10/u00b0"/>
 
 
     <TextView
-        android:id="@+id/tv_display_weather"
+        android:id="@+id/low_tempreature"
+        style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:text="10/u00b0"/>
 
 
     <TextView
-        android:id="@+id/tv_display_weather"
+        android:id="@+id/humidity"
+        style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:text="38%"/>
 
 
     <TextView
-        android:id="@+id/tv_display_weather"
+        android:id="@+id/pressure"
+        style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:text="995 hpa"/>
 
 
     <TextView
-        android:id="@+id/tv_display_weather"
+        android:id="@+id/wind"
+        style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:text="Sunday, February 12 Sunny- 30° / 20°"/>
 </LinearLayout>
