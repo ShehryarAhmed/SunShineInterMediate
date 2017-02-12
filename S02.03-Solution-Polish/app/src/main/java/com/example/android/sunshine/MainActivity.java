@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mForecastAdapter.swapCursor(data);
 
-        if(mPosition = mRecyclerView.NO_POSITION){
+        if(mPosition == mRecyclerView.NO_POSITION){
         mPosition = 0;
         }
         mRecyclerView.smoothScrollToPosition(mPosition);
@@ -180,19 +180,8 @@ mForecastAdapter.swapCursor(null);
      * This method will get the user's preferred location for weather, and then tell some
      * background method to get the weather data in the background.
      */
-    private void invalidateData() {
-        mForecastAdapter.setWeatherData(null);
-    }
 
 
-
-
-    /**
-     * This method is overridden by our MainActivity class in order to handle RecyclerView item
-     * clicks.
-     *
-     * @param weatherForDay The weather for the day that was clicked
-     */
     @Override
     public void onClick(String weatherForDay) {
         Context context = this;
@@ -215,6 +204,7 @@ mForecastAdapter.swapCursor(null);
      */
     private void showWeatherDataView() {
         /* First, make sure the error is invisible */
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
         /* Then, make sure the weather data is visible */
         mRecyclerView.setVisibility(View.VISIBLE);
     }
@@ -251,7 +241,7 @@ mForecastAdapter.swapCursor(null);
         int id = item.getItemId();
 
         if (id == R.id.action_refresh) {
-            invalidateData();
+
             getSupportLoaderManager().restartLoader(FORECAST_LODER_ID,null,this);
             return true;
         }
@@ -270,23 +260,6 @@ mForecastAdapter.swapCursor(null);
         Intent intent = new Intent(MainActivity.this,SettingActivity.class);
         startActivity(intent);
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if(PREFERENCE_HAVE_BEEN_UPDATE){
-            getSupportLoaderManager().restartLoader(FORECAST_LODER_ID,null,this);
-            PREFERENCE_HAVE_BEEN_UPDATE =false;
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
-    }
-
 
     private void openLocationInMap(){
         String addressString = SunshinePreferences.getPreferredWeatherLocation(this);
