@@ -53,7 +53,7 @@ public class WeatherProvider extends ContentProvider {
                 cursor = mOpenHelper.getReadableDatabase().query(
                         WeatherContract.WeatherEntry.TABLE_NAME,
                         projection,
-                        WeatherContract.WeatherEntry.CoLUMN_DATE+" = ? ",
+                        WeatherContract.WeatherEntry.COLUMN_DATE+" = ? ",
                         selectionArgs,
                         null,
                         null,
@@ -90,7 +90,7 @@ public class WeatherProvider extends ContentProvider {
                 try{
                     for(ContentValues value : values){
                        long weatherData =
-                               value.getAsLong(WeatherContract.WeatherEntry.CoLUMN_DATE);
+                               value.getAsLong(WeatherContract.WeatherEntry.COLUMN_DATE);
                         if(SunshineDateUtils.isDateNormalized(weatherData)){
                             throw  new IllegalArgumentException("Date Must be normalized To Insert");
                         }

@@ -43,6 +43,7 @@ import android.widget.Toast;
 import com.example.android.sunshine.ForecastAdapter.ForecastAdapterOnClickHandler;
 import com.example.android.sunshine.data.SunshinePreferences;
 import com.example.android.sunshine.data.WeatherContract;
+import com.example.android.sunshine.utilities.FakeDataUtils;
 import com.example.android.sunshine.utilities.NetworkUtils;
 import com.example.android.sunshine.utilities.OpenWeatherJsonUtils;
 
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private ForecastAdapter mForecastAdapter;
 
+    private int mPosition = RecyclerView.NO_POSITION;
 
     private ProgressBar mLoadingIndicator;
 
@@ -82,10 +84,7 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forecast);
 
-        /*
-         * Using findViewById, we get a reference to our RecyclerView from xml. This allows us to
-         * do things like set the adapter of the RecyclerView and toggle the visibility.
-         */
+        FakeDataUtils.insertFakeData(this);
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_forecast);

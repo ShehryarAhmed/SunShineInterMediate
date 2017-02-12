@@ -33,11 +33,11 @@ public class WeatherContract {
 
         public static final String COLUMN_MAX_TEMP = "max";
 
-        public static final String COLUMN_HUMIDTIY = "humidity";
+        public static final String COLUMN_HUMIDITY = "humidity";
 
         public static final String COLUMN_PRESSURE = "pressure";
 
-        public static final String  COLUMN_WING_SPEED = "wind";
+        public static final String  COLUMN_WIND_SPEED = "wind";
 
         public static final String COLUMN_DEGREES = "degrees";
 
