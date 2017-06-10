@@ -182,18 +182,7 @@ mForecastAdapter.swapCursor(null);
      */
 
 
-    @Override
-    public void onClick(String weatherForDay) {
-        Context context = this;
-        // COMPLETED (3) Remove the Toast and launch the DetailActivity using an explicit Intent
-        Class destinationClass = DetailActivity.class;
 
-        Intent intentToStartDetailActivity = new Intent(context, destinationClass);
-
-        intentToStartDetailActivity.putExtra(Intent.EXTRA_TEXT,weatherForDay);
-
-        startActivity(intentToStartDetailActivity);
-    }
 
     /**
      * This method will make the View for the weather data visible and
@@ -240,11 +229,7 @@ mForecastAdapter.swapCursor(null);
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_refresh) {
 
-            getSupportLoaderManager().restartLoader(FORECAST_LODER_ID,null,this);
-            return true;
-        }
         if (id ==R.id.action_map){
             openLocationInMap();
             return true;
@@ -277,4 +262,12 @@ mForecastAdapter.swapCursor(null);
     }
 
 
+    @Override
+    public void onClick(long date) {
+        Intent weatherDetailIntent = new Intent(MainActivity.this, DetailActivity.class);
+      //      COMPLETED (39) Refactor onClick to pass the URI for the clicked date with the Intent
+           Uri uriForDateClicked = WeatherContract.WeatherEntry.buildWeatherUriWithDate(date);
+              weatherDetailIntent.setData(uriForDateClicked);
+              startActivity(weatherDetailIntent);
+    }
 }
